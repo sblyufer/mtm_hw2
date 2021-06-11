@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "examDetails.h"
+#include <math.h>
 
 #define DAYS_IN_MONTH 30
 namespace mtm
@@ -18,7 +19,13 @@ namespace mtm
         //c'tors
         ExamDetails(int course_number, int exam_month, int exam_day,
                     double exam_hour, int exam_duration, std::string zoom_link); //change to doubles
-        ~ExamDetails();
+       // ~ExamDetails();
+        static ExamDetails makeMatamExam()
+        {
+            ExamDetails exam_matam(int 234124, int 7, int 28,
+                    double 13.0, int 3, "https://tinyurl.com/59hzps6m");
+            return exam_matam;
+        }
         ExamDetails(const ExamDetails& exam_details);
         //operators
         ExamDetails& operator = (const ExamDetails& exam_details) = default;
@@ -60,20 +67,22 @@ namespace mtm
         friend std::ostream& operator<<(std::ostream&, const String&);
     };
 
-    ExamDetails::ExamDetails(int course_number, int exam_month, int exam_day,
-                double exam_hour, int exam_duration, std::string zoom_link = "")
+    ExamDetails::ExamDetails(int course_number, double exam_month, double exam_day,
+                double exam_hour, double exam_duration, std::string zoom_link = "")
     {
-        if(course_number < 0)
-        {
-            throw InvalidArgsException();
-        }
-        if(exam_month > 12 || exam_month < 1 || exam_day < 1 || exam_day > 30)
+        if(exam_month >= 12.000001 || exam_month < 0.999999 || exam_day < 0.999999 ||
+                exam_day > 30)
         {
             throw InvalidDateException();
         }
-        if((exam_hour > 23.5 || exam_hour < 0
-            || (exam_hour - (int)exam_hour != 0.0 && exam_hour - (int)exam_hour != 0.5)
-            || exam_duration < 0))
+
+        int int_part = (int) exam_hour;
+        //double exam_hour, fract_part, int_part;
+        //fract_part = modf (exam_hour , &int_part);
+        //if((exam_hour > 22.499999 || exam_hour < 0.000001
+          //  || (fract_part < 0.000001 && fract_part > -0.000001
+           // && fract_part < 0.5000001 && exam_hour >)
+          //  || exam_duration < 0))
         {
             throw InvalidTimeException();
         }
@@ -83,7 +92,6 @@ namespace mtm
     ExamDetails::~ExamDetails()
     {
 
-    }
 
     ExamDetails::ExamDetails(const ExamDetails& exam_details) = default;
 //    {
