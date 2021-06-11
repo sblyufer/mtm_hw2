@@ -57,7 +57,7 @@ namespace mtm
         std::string getLink() const;
         void setLink(std::string new_link);
         //friends
-        friend std::ostream& operator<<(std::ostream&, const String&);
+        friend std::ostream& operator<<(std::ostream&, const ExamDetails&);
     };
 
     ExamDetails::ExamDetails(int course_number, int exam_month, int exam_day,
@@ -82,7 +82,6 @@ namespace mtm
 
     ExamDetails::~ExamDetails()
     {
-
     }
 
     ExamDetails::ExamDetails(const ExamDetails& exam_details) = default;
@@ -105,6 +104,17 @@ namespace mtm
     void ExamDetails::setLink(std::string new_link)
     {
         zoom_link = new_link;
+    }
+
+    std::ostream& operator << (std::ostream& os, const ExamDetails& exam_details)
+    {
+        double int_part, fraction_part;
+        fraction_part = modf(exam_details.exam_hour, &int_part);
+        int fraction_to_print = (int)fraction_part*3;
+        return os << "Course Number: " << exam_details.course_number <<
+        "\nTime: " << exam_details.exam_day << "." << exam_details.exam_month << " at " <<
+        (int)int_part << ":" << fraction_to_print << "0" << "\nDuration: " << exam_details.exam_duration << ":00"
+        "\nZoom Link: " << exam_details.zoom_link << "\n";
     }
 }
 
